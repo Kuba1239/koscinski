@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jakub Kościński | Portfolio Social Media</title>
+    <style>
+        /* Import czcionki Montserrat z Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            /* Zwężenie odstępów między literami */
+            letter-spacing: -0.5px; 
+        }
+
+        /* --- Style dla animacji w tle (Unicorn Studio) --- */
+        [data-us-project] {
+            position: fixed; /* Zmiana na fixed, aby tło podążało za scrollowaniem */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -10;
+            opacity: 0.6; /* Zmniejszona widoczność animacji */
+            will-change: transform;
+            transform: translateZ(0);
+            pointer-events: none !important;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            contain: layout style paint;
+            isolation: isolate;
+        }
+        
+        [data-us-project] * {
+            pointer-events: none !important;
+        }
+        /* ------------------------------------------------ */
+
+        body {
+            background: #0f1115;
+            color: #e2e8f0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Usunięto overflow: hidden z kodu animacji, aby portfolio mogło się przewijać */
+        }
+
+        /* Subtelne podświetlenie w tle */
+        .glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 50%;
+            filter: blur(200px);
+            opacity: 0.35;
+            z-index: -1;
+            top: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        header {
+            margin-bottom: 4rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .profile-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .profile-pic {
+            width: 200px; /* Powiększone zdjęcie z 150px na 200px */
+            height: 200px; /* Powiększone zdjęcie z 150px na 200px */
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Świecąca obwódka zdjęcia */
+        .profile-wrapper::after {
+            content: '';
+            position: absolute;
+            top: -3px; right: -3px; bottom: -3px; left: -3px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 50%;
+            z-index: 1;
+            filter: blur(8px);
+            opacity: 0.7;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1.5px; /* Jeszcze węższy odstęp dla nagłówka */
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .about {
+            max-width: 650px;
+            margin: 0 auto;
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 400;
+        }
+
+        .highlight {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            margin-bottom: 4rem; /* Odstęp przed nową sekcją */
+        }
+
+        /* Efekt matowego szkła (Glassmorphism) */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.4s ease;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        /* MIEJSCE NA ZDJĘCIE W KAFELKU */
+        .card-image-placeholder {
+            width: 100%;
+            height: 180px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #a78bfa;
+            font-size: 0.9rem;
+        }
+
+        .card h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #f8fafc;
+            letter-spacing: -1px;
+        }
+
+        .card p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        /* SEKCJA STATYSTYK */
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 0.1rem;
+            letter-spacing: -1px;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.65rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0px; 
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: #ffffff;
+            color: #0f1115;
+        }
+
+        /* --- Nowe style dla sekcji WhatsApp --- */
+        .whatsapp-section {
+            max-width: 700px;
+            width: 100%;
+            margin: 4rem auto 2rem; /* Wyśrodkowanie i odstępy */
+            padding: 3rem; /* Zwiększony padding jak na obrazku */
+            text-align: center;
+            display: block; /* Aby nie dziedziczył flexa z .card */
+            border-radius: 16px;
+        }
+
+        .whatsapp-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .whatsapp-content h3 {
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            letter-spacing: -1px;
+            font-weight: 800;
+            font-size: 2rem;
+        }
+
+        .whatsapp-content p {
+            margin-bottom: 1.5rem;
+            color: #94a3b8;
+            max-width: 550px; /* Aby tekst był węższy i czytelniejszy */
+        }
+
+        .whatsapp-link {
+            color: #3b82f6; /* Twój błękitny kolor linku */
+            text-decoration: underline;
+            transition: color 0.3s;
+        }
+
+        .whatsapp-link:hover {
+            color: #8b5cf6; /* Twój fioletowy na hover */
+        }
+
+        /* Nowy, fioletowy przycisk, zmieniający się na biały */
+        .btn-whatsapp {
+            background: #a78bfa; /* Twój fioletowy zamiast zielonego */
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1.8rem; /* Większy padding jak na obrazku */
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 1rem; /* Margines pod przyciskiem */
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-whatsapp:hover {
+            background: #ffffff; /* Biały na hover, jak inne przyciski */
+            color: #0f1115; /* Ciemny tekst na hover */
+        }
+
+        /* Ikona WhatsApp w przycisku */
+        .whatsapp-icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            color: #ffffff; /* Biała ikona początkowo */
+            transition: color 0.3s;
+        }
+
+        .whatsapp-icon-wrapper svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .btn-whatsapp:hover .whatsapp-icon-wrapper {
+            color: #0f1115; /* Ciemna ikona na hover */
+        }
+
+        /* Numer telefonu */
+        .whatsapp-phone-number {
+            font-size: 0.85rem;
+            color: #64748b; /* Szary, mniejszy */
+            margin-top: 1rem;
+            margin-bottom: 0 !important; /* Usuwa margines od p */
+            letter-spacing: 0px; /* Luźniej dla czytelności */
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #8b5cf6;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #a78bfa;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div data-us-project="p7Ff6pfTrb5Gs59C7nLC"></div>
+
+    <div class="glow"></div>
+
+    <div class="container">
+        <header>
+            <div class="profile-wrapper">
+                <img src="2.jpeg" alt="Zdjęcie profilowe" class="profile-pic">
+            </div>
+            <h1>Cześć, jestem Jakub</h1>
+            <p class="about">
+                Cześć! Jestem montażystą rolek i grafikiem z Warszawy. Zajmuję się kompleksowym prowadzeniem profili w social mediach. Mam na swoim koncie ponad <span class="highlight">1700 zmontowanych krótkich form wideo</span>, co pozwala mi tworzyć dynamiczne formaty, które przykuwają uwagę i budują zaangażowane społeczności.
+            </p>
+        </header>
+
+        <section>
+            <div class="portfolio-grid">
+                
+                <div class="card">
+                    <div class="card-image-placeholder">Miejsce na zdjęcie</div>
+                    <div class="card-header">
+                        <div class="social-icon">IG</div>
+                        <h3>Marka / Profil 1</h3>
+                    </div>
+                    <p>Pełna obsługa konta, projektowanie spójnych grafik na feed oraz regularny montaż rolek nastawionych na zwiększenie świadomości marki.</p>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-value">+320%</span>
+                            <span class="stat-label">Zasięgów</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">450k</span>
+                            <span class="stat-label">Wyświetleń</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">2.5k</span>
+                            <span class="stat-label">Nowych obs.</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn">Zobacz profil</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-image-placeholder">Miejsce na zdjęcie</div>
+                    <div class="card-header">
+                        <div class="social-icon">TT</div>
+                        <h3>Marka / Profil 2</h3>
+                    </div>
+                    <p>Strategia komunikacji oparta o trendy, angażowanie społeczności i tworzenie viralowych treści pionowych od zera.</p>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-value">1.2M</span>
+                            <span class="stat-label">Odsłon</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">15k</span>
+                            <span class="stat-label">Udostępnień</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">8%</span>
+                            <span class="stat-label">Konwersji</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn">Zobacz profil</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-image-placeholder">Miejsce na zdjęcie</div>
+                    <div class="card-header">
+                        <div class="social-icon">FB</div>
+                        <h3>Marka / Profil 3</h3>
+                    </div>
+                    <p>Codzienna moderacja, interakcje z followersami oraz przygotowywanie atrakcyjnych postów karuzelowych i wideo sprzedażowego.</p>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-value">40+</span>
+                            <span class="stat-label">Postów / m-c</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">120k</span>
+                            <span class="stat-label">Aktywności</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">+45%</span>
+                            <span class="stat-label">Zaangażow.</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn">Zobacz profil</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-image-placeholder">Miejsce na zdjęcie</div>
+                    <div class="card-header">
+                        <div class="social-icon">IG</div>
+                        <h3>Marka / Profil 4</h3>
+                    </div>
+                    <p>Rebranding wizualny profilu i wdrożenie nowej strategii contentowej opartej na estetycznych, dynamicznych krótkich formach.</p>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-value">800k</span>
+                            <span class="stat-label">Wyświetleń</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">+200%</span>
+                            <span class="stat-label">Kliknięć</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">1.2k</span>
+                            <span class="stat-label">Zapisów</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn">Zobacz profil</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-image-placeholder">Miejsce na zdjęcie</div>
+                    <div class="card-header">
+                        <div class="social-icon">TT</div>
+                        <h3>Marka / Profil 5</h3>
+                    </div>
+                    <p>Tworzenie serii edukacyjnych i rozrywkowych. Montaż nastawiony na wysoką retencję i czas oglądania materiałów.</p>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-value">2.5M</span>
+                            <span class="stat-label">Zasięgu</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">75%</span>
+                            <span class="stat-label">Retencji</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">30k</span>
+                            <span class="stat-label">Komentarzy</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn">Zobacz profil</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-image-placeholder">Miejsce na zdjęcie</div>
+                    <div class="card-header">
+                        <div class="social-icon">FB</div>
+                        <h3>Marka / Profil 6</h3>
+                    </div>
+                    <p>Zarządzanie budżetami reklamowymi, tworzenie grafik pod kampanie i płynne łączenie ruchu organicznego z płatnym.</p>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-value">150k</span>
+                            <span class="stat-label">Kliknięć</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">-30%</span>
+                            <span class="stat-label">Koszty (CPC)</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">5x</span>
+                            <span class="stat-label">ROAS</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn">Zobacz profil</a>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="whatsapp-section card">
+            <div class="whatsapp-content">
+                <h3>Nie możesz się doczekać?</h3>
+                <p>Jeśli chcesz porozmawiać wcześniej lub masz pilne pytanie, napisz do mnie bezpośrednio na <a href="https://wa.me/48693005071" target="_blank" class="whatsapp-link">WhatsApp</a>.</p>
+                <a href="https://wa.me/48693005071" target="_blank" class="btn btn-whatsapp">
+                    <span class="whatsapp-icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
+                          <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                        </svg>
+                    </span>
+                    Napisz na WhatsApp
+                </a>
+                <p class="whatsapp-phone-number">+48 693 005 071</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>Pełne portfolio i kontakt znajdziesz na: <a href="https://jkoscinski.pl" target="_blank">jkoscinski.pl</a></p>
+        </footer>
+    </div>
+
+    <script type="text/javascript">
+        !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();
+    </script>
+</body>
+</html>
