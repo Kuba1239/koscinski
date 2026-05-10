@@ -19,13 +19,13 @@
 
         /* --- Style dla animacji w tle (Unicorn Studio) --- */
         [data-us-project] {
-            position: fixed; /* Zmiana na fixed, aby tło podążało za scrollowaniem */
+            position: fixed; 
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             z-index: -10;
-            opacity: 0.6; /* Zmniejszona widoczność animacji */
+            opacity: 0.3; /* Jeszcze mniejsza widoczność dla lepszej czytelności */
             will-change: transform;
             transform: translateZ(0);
             pointer-events: none !important;
@@ -48,7 +48,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Usunięto overflow: hidden z kodu animacji, aby portfolio mogło się przewijać */
         }
 
         /* Subtelne podświetlenie w tle */
@@ -85,8 +84,8 @@
         }
 
         .profile-pic {
-            width: 200px; /* Powiększone zdjęcie z 150px na 200px */
-            height: 200px; /* Powiększone zdjęcie z 150px na 200px */
+            width: 200px; 
+            height: 200px; 
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid rgba(255, 255, 255, 0.1);
@@ -94,7 +93,6 @@
             z-index: 2;
         }
 
-        /* Świecąca obwódka zdjęcia */
         .profile-wrapper::after {
             content: '';
             position: absolute;
@@ -109,7 +107,7 @@
         h1 {
             font-size: 2.5rem;
             font-weight: 800;
-            letter-spacing: -1.5px; /* Jeszcze węższy odstęp dla nagłówka */
+            letter-spacing: -1.5px;
             margin-bottom: 1rem;
             color: #ffffff;
         }
@@ -132,10 +130,9 @@
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
-            margin-bottom: 4rem; /* Odstęp przed nową sekcją */
+            margin-bottom: 4rem;
         }
 
-        /* Efekt matowego szkła (Glassmorphism) */
         .card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -156,7 +153,6 @@
             box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
         }
 
-        /* MIEJSCE NA ZDJĘCIE W KAFELKU */
         .card-image-placeholder {
             width: 100%;
             height: 180px;
@@ -208,7 +204,6 @@
             flex-grow: 1;
         }
 
-        /* SEKCJA STATYSTYK */
         .stats-container {
             display: flex;
             justify-content: space-between;
@@ -258,14 +253,13 @@
             color: #0f1115;
         }
 
-        /* --- Nowe style dla sekcji WhatsApp --- */
         .whatsapp-section {
             max-width: 700px;
             width: 100%;
-            margin: 4rem auto 2rem; /* Wyśrodkowanie i odstępy */
-            padding: 3rem; /* Zwiększony padding jak na obrazku */
+            margin: 4rem auto 2rem;
+            padding: 3rem;
             text-align: center;
-            display: block; /* Aby nie dziedziczył flexa z .card */
+            display: block;
             border-radius: 16px;
         }
 
@@ -286,47 +280,45 @@
         .whatsapp-content p {
             margin-bottom: 1.5rem;
             color: #94a3b8;
-            max-width: 550px; /* Aby tekst był węższy i czytelniejszy */
+            max-width: 550px;
         }
 
         .whatsapp-link {
-            color: #3b82f6; /* Twój błękitny kolor linku */
+            color: #3b82f6;
             text-decoration: underline;
             transition: color 0.3s;
         }
 
         .whatsapp-link:hover {
-            color: #8b5cf6; /* Twój fioletowy na hover */
+            color: #8b5cf6;
         }
 
-        /* Nowy, fioletowy przycisk, zmieniający się na biały */
         .btn-whatsapp {
-            background: #a78bfa; /* Twój fioletowy zamiast zielonego */
+            background: #a78bfa;
             color: #ffffff;
             display: inline-flex;
             align-items: center;
             gap: 0.8rem;
-            padding: 0.8rem 1.8rem; /* Większy padding jak na obrazku */
+            padding: 0.8rem 1.8rem;
             border: none;
             border-radius: 8px;
-            margin-bottom: 1rem; /* Margines pod przyciskiem */
+            margin-bottom: 1rem;
             font-weight: 600;
             transition: all 0.3s ease;
         }
 
         .btn-whatsapp:hover {
-            background: #ffffff; /* Biały na hover, jak inne przyciski */
-            color: #0f1115; /* Ciemny tekst na hover */
+            background: #ffffff;
+            color: #0f1115;
         }
 
-        /* Ikona WhatsApp w przycisku */
         .whatsapp-icon-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 20px;
             height: 20px;
-            color: #ffffff; /* Biała ikona początkowo */
+            color: #ffffff;
             transition: color 0.3s;
         }
 
@@ -336,16 +328,15 @@
         }
 
         .btn-whatsapp:hover .whatsapp-icon-wrapper {
-            color: #0f1115; /* Ciemna ikona na hover */
+            color: #0f1115;
         }
 
-        /* Numer telefonu */
         .whatsapp-phone-number {
             font-size: 0.85rem;
-            color: #64748b; /* Szary, mniejszy */
+            color: #64748b;
             margin-top: 1rem;
-            margin-bottom: 0 !important; /* Usuwa margines od p */
-            letter-spacing: 0px; /* Luźniej dla czytelności */
+            margin-bottom: 0 !important;
+            letter-spacing: 0px;
         }
 
         footer {
@@ -377,7 +368,7 @@
 </head>
 <body>
 
-    <div data-us-project="p7Ff6pfTrb5Gs59C7nLC"></div>
+    <div data-us-project="p7Ff6pfTrb5Gs59C7nLC" data-us-speed="0.3"></div>
 
     <div class="glow"></div>
 
