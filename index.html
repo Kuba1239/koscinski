@@ -69,6 +69,25 @@
             text-align: center;
         }
 
+        /* --- NOWE: Styl dla kontenera logo --- */
+        .logo-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-out;
+            
+            /* --- NOWE LINIJKI DO PRZESUNIĘCIA --- */
+            position: relative; 
+            top: -30px;  /* Wartość ujemna przesuwa w górę (zwiększ np. do -50px by dać jeszcze wyżej) */
+            left: 20px;  /* Wartość dodatnia przesuwa w prawo (zmniejsz/zwiększ według uznania) */
+        }
+
+        .main-logo {
+            max-width: 160px; /* Tutaj możesz zmienić szerokość logo */
+            height: auto;
+        }
+
         .whatsapp-phone-number a {
             color: white !important;
             text-decoration: none !important;
@@ -359,7 +378,7 @@
             color: #64748b;
         }
 
-        /* --- NOWE: Kalkulator --- */
+        /* --- Kalkulator --- */
         .calculator-section {
             max-width: 700px;
             width: 100%;
@@ -584,6 +603,13 @@
     <div class="glow"></div>
 
     <div class="container">
+        
+        <!-- NOWE: Kontener z Logo na samej górze strony -->
+        <div class="logo-wrapper">
+            <!-- PODMIEŃ ŚCIEŻKĘ DO LOGO PONIŻEJ ("twoje-logo.png") NA WŁAŚCIWĄ -->
+            <img src="logo.png" alt="Logo Jakub Kościński" class="main-logo">
+        </div>
+
         <header>
             <div class="profile-wrapper">
                 <img src="2.jpeg" alt="Zdjęcie profilowe" class="profile-pic">
@@ -845,6 +871,9 @@
                 <div class="slider-container">
                     <span class="slider-value-display" id="reelsCount">10</span>
                     <span class="slider-label" id="reelsLabel">sztuk</span>
+                    
+                    <div id="idealNotice" style="display: none; color: #10b981; font-size: 0.85rem; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Największy wzrost zasięgów! 🔥</div>
+                    
                     <input type="range" id="priceSlider" min="1" max="30" value="10">
                 </div>
 
@@ -888,6 +917,7 @@
             const reelsCountDisplay = document.getElementById('reelsCount');
             const reelsLabelDisplay = document.getElementById('reelsLabel');
             const totalPriceDisplay = document.getElementById('totalPrice');
+            const idealNotice = document.getElementById('idealNotice');
             const ratePerReel = 65; // Twoja stawka
 
             function updateCalculator() {
@@ -904,6 +934,13 @@
                     reelsLabelDisplay.textContent = 'sztuki';
                 } else {
                     reelsLabelDisplay.textContent = 'sztuk';
+                }
+
+                // Wiadomość dla 14 sztuk
+                if (count === 14) {
+                    idealNotice.style.display = 'block';
+                } else {
+                    idealNotice.style.display = 'none';
                 }
 
                 // Wizualne kolorowanie paska przed suwakiem
