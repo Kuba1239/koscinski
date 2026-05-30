@@ -443,11 +443,14 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             margin: 0.5rem auto 2rem auto;
             transition: all 0.3s ease;
+            white-space: nowrap; /* Zapobiega przechodzeniu tekstu do nowej linii */
         }
 
         .status-dot {
             width: 8px;
             height: 8px;
+            min-width: 8px; /* Zabezpiecza kółko przed spłaszczeniem przez flexboxa */
+            flex-shrink: 0; /* Blokada przed pomniejszaniem elementu */
             border-radius: 50%;
             background: #a78bfa;
             box-shadow: 0 0 8px rgba(167, 139, 250, 0.6);
@@ -460,6 +463,23 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+        }
+
+        /* Optymalizacja etykiety pod bardzo wąskie ekrany telefonów */
+        @media (max-width: 480px) {
+            .status-badge {
+                padding: 0.4rem 0.8rem;
+                gap: 6px;
+            }
+            .status-text {
+                font-size: 0.65rem;
+                letter-spacing: 0.5px;
+            }
+            .status-dot {
+                width: 6px;
+                height: 6px;
+                min-width: 6px;
+            }
         }
 
         /* Wygląd suwaka */
@@ -887,17 +907,19 @@
             </div>
         </section>
 
+        <!-- SEKCJA: KALKULATOR WYCENY -->
         <section class="calculator-section">
             <div class="calculator-card">
                 <div class="calc-header">
                     <h3>Wyceń współpracę</h3>
-                    <p>Wybierz ile gotowych Rolek lub TikToków potrzebujesz w tym miesiącu.</p>
+                    <p>Wybierz ile gotowych materiałów wideo potrzebujesz w tym miesiącu.</p>
                 </div>
                 
                 <div class="slider-container">
                     <span class="slider-value-display" id="reelsCount">10</span>
                     <span class="slider-label" id="reelsLabel">sztuk</span>
                     
+                    <!-- PROFESJONALNA ETYKIETA BIZNESOWA -->
                     <div style="display: flex; justify-content: center; width: 100%;">
                         <div class="status-badge">
                             <span class="status-dot" id="statusDot"></span>
@@ -936,10 +958,12 @@
         </footer>
     </div>
 
+    <!-- Skrypt animacji (Unicorn Studio) -->
     <script type="text/javascript">
         !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();
     </script>
 
+    <!-- Skrypt do kalkulatora -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const slider = document.getElementById('priceSlider');
