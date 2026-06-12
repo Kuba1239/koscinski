@@ -3,9 +3,873 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strona główna</title>
+    <title>Jakub Kościński | Portfolio Social Media</title>
+    <style>
+        /* Import czcionki Montserrat z Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: -0.5px; 
+        }
+
+        /* --- Style dla animacji w tle (Unicorn Studio) --- */
+        [data-us-project] {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -10;
+            opacity: 0.1;
+            will-change: transform;
+            transform: translateZ(0);
+            pointer-events: none !important;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            contain: layout style paint;
+            isolation: isolate;
+        }
+        
+        [data-us-project] * {
+            pointer-events: none !important;
+        }
+
+        body {
+            background: #0f1115;
+            color: #e2e8f0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 50%;
+            filter: blur(200px);
+            opacity: 0.35;
+            z-index: -1;
+            top: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        /* --- Styl dla kontenera logo --- */
+        .logo-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-out;
+            position: relative; 
+            top: -30px;
+            left: 20px;
+        }
+
+        .main-logo {
+            max-width: 160px;
+            height: auto;
+        }
+
+        .whatsapp-phone-number a {
+            color: white !important;
+            text-decoration: none !important;
+        }
+
+        header {
+            margin-bottom: 4rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .profile-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .profile-pic {
+            width: 200px; 
+            height: 200px; 
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-wrapper::after {
+            content: '';
+            position: absolute;
+            top: -3px; right: -3px; bottom: -3px; left: -3px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 50%;
+            z-index: 1;
+            filter: blur(8px);
+            opacity: 0.2;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .about {
+            max-width: 650px;
+            margin: 0 auto;
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 400;
+            margin-top: 20px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-align: center;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 5rem;
+        }
+
+        .service-card, .card, .testimonial-card, .calculator-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.4s ease;
+        }
+
+        .service-card {
+            padding: 2rem 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .service-card:hover, .card:hover, .testimonial-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(167, 139, 250, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(167, 139, 250, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a78bfa;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-icon svg { width: 28px; height: 28px; }
+
+        .service-card h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #f8fafc;
+            margin-bottom: 0.8rem;
+        }
+
+        .service-card p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            padding: 1.5rem;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-image-placeholder {
+            width: 100%;
+            height: 180px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #a78bfa;
+            font-size: 0.9rem;
+        }
+
+        .card h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .card p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 0.1rem;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.65rem;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: #ffffff;
+            color: #0f1115;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .testimonial-card {
+            padding: 2rem;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stars {
+            color: #fbbf24;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .quote {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            flex-grow: 1;
+        }
+
+        .client-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 1.2rem;
+        }
+
+        .client-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .client-details h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #f8fafc;
+            margin-bottom: 0.1rem;
+        }
+
+        .client-details span {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        /* --- Kalkulator --- */
+        .calculator-section {
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto 4rem;
+        }
+
+        .calculator-card {
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .calculator-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #a78bfa);
+        }
+
+        .calc-header h3 {
+            font-size: 1.8rem;
+            color: #ffffff;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-header p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .slider-container {
+            position: relative;
+            margin-bottom: 2rem;
+            padding: 0 10px;
+        }
+
+        .slider-value-display {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #a78bfa;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .slider-label {
+            font-size: 1rem;
+            color: #f8fafc;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        /* --- PROFESJONALNA ETYKIETA --- */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin: 0.5rem auto 2rem auto;
+            transition: all 0.3s ease;
+            white-space: nowrap; /* Zapobiega przechodzeniu tekstu do nowej linii */
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            min-width: 8px; /* Zabezpiecza kółko przed spłaszczeniem przez flexboxa */
+            flex-shrink: 0; /* Blokada przed pomniejszaniem elementu */
+            border-radius: 50%;
+            background: #a78bfa;
+            box-shadow: 0 0 8px rgba(167, 139, 250, 0.6);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .status-text {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Optymalizacja etykiety pod bardzo wąskie ekrany telefonów */
+        @media (max-width: 480px) {
+            .status-badge {
+                padding: 0.4rem 0.8rem;
+                gap: 6px;
+            }
+            .status-text {
+                font-size: 0.65rem;
+                letter-spacing: 0.5px;
+            }
+            .status-dot {
+                width: 6px;
+                height: 6px;
+                min-width: 6px;
+            }
+        }
+
+        /* Wygląd suwaka */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+            position: relative;
+            z-index: 2;
+        }
+
+        input[type=range]:focus {
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #a78bfa;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -8px;
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.4);
+            border: 3px solid #0f1115;
+            transition: transform 0.1s;
+        }
+        
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        .calc-result-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .calc-result-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .calc-result-price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1;
+        }
+
+        .calc-result-currency {
+            font-size: 1.2rem;
+            color: #a78bfa;
+            font-weight: 600;
+            vertical-align: super;
+        }
+
+        .whatsapp-section {
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto 2rem;
+            padding: 3rem;
+            text-align: center;
+            display: block;
+        }
+
+        .whatsapp-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .whatsapp-content h3 {
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 2rem;
+        }
+
+        .whatsapp-content p {
+            margin-bottom: 1.5rem;
+            color: #94a3b8;
+            max-width: 550px;
+        }
+
+        .btn-whatsapp {
+            background: #a78bfa;
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-whatsapp:hover {
+            background: #ffffff;
+            color: #0f1115;
+        }
+
+        .whatsapp-icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            color: #ffffff;
+            transition: color 0.3s;
+        }
+
+        .whatsapp-icon-wrapper svg { width: 100%; height: 100%; }
+        .btn-whatsapp:hover .whatsapp-icon-wrapper { color: #0f1115; }
+
+        .whatsapp-phone-number {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 1rem;
+            margin-bottom: 0 !important;
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #8b5cf6;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        footer a:hover { color: #a78bfa; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
-    Wpisz tutaj swój dowolny tekst.
+
+    <div data-us-project="p7Ff6pfTrb5Gs59C7nLC" data-us-fps="24"></div>
+    <div class="glow"></div>
+
+    <div class="container">
+        
+        <div class="logo-wrapper">
+            <img src="logo.png" alt="Logo Jakub Kościński" class="main-logo">
+        </div>
+
+        <header>
+            <div class="profile-wrapper">
+                <img src="2.jpeg" alt="Zdjęcie profilowe" class="profile-pic">
+            </div>
+            <h2>Cześć, jestem <span style="color: #a78bfa;">Jakub</span></h2>
+            <p class="about">
+                Od 5 lat wspieram marki w budowaniu silnej obecności w mediach społecznościowych. Wiem, jak sprawić, by scrollujący użytkownik zatrzymał się właśnie na Twoim profilu. Moje doświadczenie to ponad 130 unikalnych projektów na 11 rynkach zagranicznych. Tworzę social media, które zostają w pamięci.
+            </p>
+        </header>
+
+        <section>
+            <h2 class="section-title">Moje Usługi</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
+                        </svg>
+                    </div>
+                    <h3>Zarządzanie profilami</h3>
+                    <p>Kompleksowa strategia, regularna publikacja i bieżąca moderacja Twoich kont w social mediach.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M0 12V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm6.79-6.907A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
+                        </svg>
+                    </div>
+                    <h3>Krótkie formy wideo</h3>
+                    <p>Montaż dynamicznych Rolek i TikToków nastawionych na wysoką retencję i wiralowe zasięgi.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.756l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z"/>
+                        </svg>
+                    </div>
+                    <h3>Kampanie płatne (Ads)</h3>
+                    <p>Tworzenie skutecznych reklam i bieżąca optymalizacja budżetów dla maksymalnego zwrotu z inwestycji.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+                            <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+                        </svg>
+                    </div>
+                    <h3>Automatyzacje i analityka</h3>
+                    <p>Decyzje oparte na twardych danych. Wykorzystuję skrypty do automatyzacji procesów i głębokiej analityki, by wycisnąć maksimum z każdej kampanii.</p>
+                </div>
+            </div>
+        </section>
+
+        
+        <section>
+            <h2 class="section-title">Opinie Klientów</h2>
+            <div class="testimonials-grid">
+                
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="quote">"Szukałam kogoś, kto ogarnie mi Instagrama, bo sama nie miałam już na to czasu. Kuba świetnie wszedł w klimat mojej marki. Od kiedy przejął profil, widać dużo większe zaangażowanie, a rolki w końcu zaczęły przynosić konkretny ruch w sklepie."</p>
+                    <div class="client-profile">
+                        <img src="https://ui-avatars.com/api/?name=Anna+Nowak&background=a78bfa&color=fff" alt="Klient" class="client-avatar">
+                        <div class="client-details">
+                            <h4>Anna Wynkos</h4>
+                            <span>Właścicielka e-commerce</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="quote">"Bardzo sprawna komunikacja. Jakub szybko łapie, o co chodzi i sam wychodzi z inicjatywą. Zasięgi zauważalnie poszły w górę, szczególnie po zmianie formatu rolek, co zasugerował już na samym początku. Solidna robota."</p>
+                    <div class="client-profile">
+                        <img src="https://ui-avatars.com/api/?name=Michał+Kowalski&background=3b82f6&color=fff" alt="Klient" class="client-avatar">
+                        <div class="client-details">
+                            <h4>Michał Kolenderski</h4>
+                            <span>CEO, TechStartIT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="quote">"Kreatywność, rzetelność i świetny kontakt. Jakub nie tylko zarządza profilami, ale też doradza i zawsze szuka optymalnych rozwiązań dla biznesu. Bardzo polecam!"</p>
+                    <div class="client-profile">
+                        <img src="https://ui-avatars.com/api/?name=Katarzyna+Lis&background=8b5cf6&color=fff" alt="Klient" class="client-avatar">
+                        <div class="client-details">
+                            <h4>Katarzyna Lis</h4>
+                            <span>Dyrektor Marketingu</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEKCJA: KALKULATOR WYCENY -->
+        <section class="calculator-section">
+            <div class="calculator-card">
+                <div class="calc-header">
+                    <h3>Wyceń współpracę</h3>
+                    <p>Wybierz ile gotowych Rolek lub TikToków potrzebujesz w tym miesiącu.</p>
+                </div>
+                
+                <div class="slider-container">
+                    <span class="slider-value-display" id="reelsCount">10</span>
+                    <span class="slider-label" id="reelsLabel">sztuk</span>
+                    
+                    <!-- PROFESJONALNA ETYKIETA BIZNESOWA -->
+                    <div style="display: flex; justify-content: center; width: 100%;">
+                        <div class="status-badge">
+                            <span class="status-dot" id="statusDot"></span>
+                            <span class="status-text" id="statusText">Cel: Konsekwentny wzrost</span>
+                        </div>
+                    </div>
+                    
+                    <input type="range" id="priceSlider" min="1" max="30" value="10">
+                </div>
+
+                <div class="calc-result-box">
+                    <span class="calc-result-label">Szacowany budżet</span>
+                    <div class="calc-result-price" id="totalPrice">650 <span class="calc-result-currency">PLN</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="whatsapp-section card">
+            <div class="whatsapp-content">
+                <h3>To co, zaczynamy?</h3>
+                <p>Chcesz wyróżnić się w social mediach lub omówić projekt? Napisz do mnie bezpośrednio na WhatsApp</p>
+                <a href="https://wa.me/48695175164" target="_blank" class="btn btn-whatsapp">
+                    <span class="whatsapp-icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
+                          <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                        </svg>
+                    </span>
+                    Napisz na WhatsApp
+                </a>
+                <p class="whatsapp-phone-number">Lub zadzwoń: +48 695 175 164</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>Moje portfolio z montażem rolek: <a href="https://jkoscinski.pl" target="_blank">jkoscinski.pl</a></p>
+        </footer>
+    </div>
+
+    <!-- Skrypt animacji (Unicorn Studio) -->
+    <script type="text/javascript">
+        !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();
+    </script>
+
+    <!-- Skrypt do kalkulatora -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.getElementById('priceSlider');
+            const reelsCountDisplay = document.getElementById('reelsCount');
+            const reelsLabelDisplay = document.getElementById('reelsLabel');
+            const totalPriceDisplay = document.getElementById('totalPrice');
+            const statusText = document.getElementById('statusText');
+            const statusDot = document.getElementById('statusDot');
+            
+            const ratePerReel = 75; // Stawka podstawowa
+
+            function updateCalculator() {
+                const count = parseInt(slider.value, 10);
+                const total = count * ratePerReel;
+                
+                reelsCountDisplay.textContent = count;
+                totalPriceDisplay.innerHTML = `${total} <span class="calc-result-currency">PLN</span>`;
+                
+                // Odmiana słowa "sztuka"
+                if (count === 1) {
+                    reelsLabelDisplay.textContent = 'sztuka';
+                } else if ([2, 3, 4, 22, 23, 24].includes(count)) {
+                    reelsLabelDisplay.textContent = 'sztuki';
+                } else {
+                    reelsLabelDisplay.textContent = 'sztuk';
+                }
+
+                // Profesjonalna zmiana tekstu oparta na języku B2B / celach
+                if (count < 8) {
+                    statusText.textContent = "Cel: Regularna obecność";
+                    statusDot.style.background = "#64748b"; // Szary, stonowany
+                    statusDot.style.boxShadow = "none";
+                } else if (count >= 8 && count <= 15) {
+                    statusText.textContent = "Cel: Konsekwentny wzrost";
+                    statusDot.style.background = "#a78bfa"; // Fioletowy, marka
+                    statusDot.style.boxShadow = "0 0 8px rgba(167, 139, 250, 0.4)";
+                } else if (count >= 16 && count <= 24) {
+                    statusText.textContent = "Cel: Skalowanie zasięgów";
+                    statusDot.style.background = "#8b5cf6"; // Mocniejszy fiolet
+                    statusDot.style.boxShadow = "0 0 10px rgba(139, 92, 246, 0.6)";
+                } else {
+                    statusText.textContent = "Cel: Dominacja w niszy";
+                    statusDot.style.background = "#3b82f6"; // Niebieski, akcentowy
+                    statusDot.style.boxShadow = "0 0 12px rgba(59, 130, 246, 0.8)";
+                }
+
+                // Wizualne kolorowanie paska przed suwakiem
+                const percentage = ((count - slider.min) / (slider.max - slider.min)) * 100;
+                slider.style.background = `linear-gradient(to right, #a78bfa 0%, #a78bfa ${percentage}%, rgba(255,255,255,0.05) ${percentage}%, rgba(255,255,255,0.05) 100%)`;
+            }
+
+            slider.addEventListener('input', updateCalculator);
+            
+            // Inicjalizacja przy pierwszym załadowaniu
+            updateCalculator();
+        });
+    </script>
 </body>
 </html>
